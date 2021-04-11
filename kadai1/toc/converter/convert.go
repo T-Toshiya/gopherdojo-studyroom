@@ -1,21 +1,34 @@
 package converter
 
 import (
+	"image"
 	"image/jpeg"
 	"image/png"
-	"log"
 	"os"
 	"strings"
 )
 
-func Convert(directory, filepath string) error {
+type ConvertOpt struct {
+	BeforeFmt string
+	AfterFmt  string
+}
+
+func (c ConvertOpt) Convert(directory, filepath string) error {
+	var img image.Image
+
 	file, err := os.Open(directory + "/" + filepath)
 	if err != nil {
 		return err
 	}
 	defer file.Close()
 
-	img, err := jpeg.Decode(file)
+	switch c.BeforeFmt {
+	case "jpg":
+		img, err = jpeg.Decode(file)
+	case "png":
+		img, err = png.Decode(file)
+	}
+
 	if err != nil {
 		return err
 	}
@@ -27,8 +40,16 @@ func Convert(directory, filepath string) error {
 	}
 	defer out.Close()
 
-	if err := png.Encode(out, img); err != nil {
-		log.Fatal(err)
+	switch c.AfterFmt {
+	case "jpg":
+		if err := jpeg.Encode(out, img, &jpeg.Options{}); err != nil {
+			return err
+		}
+	case "png":
+		if err := png.Encode(out, img); err != nil {
+			return err
+		}
 	}
+
 	return nil
 }
