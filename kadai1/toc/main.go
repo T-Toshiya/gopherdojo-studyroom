@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/T-Toshiya/gopherdojo-studyroom/kadai1/converter"
 	"io/ioutil"
 	"log"
 	"os"
@@ -18,7 +19,7 @@ func main() {
 	flags.StringVar(&directory, "d", "", "")
 
 	if err := flags.Parse(os.Args[1:]); err != nil {
-
+		log.Fatal(err)
 	}
 
 	if f, err := os.Stat(directory); os.IsNotExist(err) || !f.IsDir() {
@@ -38,6 +39,10 @@ func main() {
 	}
 
 	for _, filepath := range paths {
-		fmt.Println(filepath)
+		err := converter.Convert(directory, filepath)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
+	fmt.Println("Convert success")
 }
