@@ -12,11 +12,19 @@ import (
 
 func main() {
 	var directory string
+	var from string
+	var to string
 
 	flags := flag.NewFlagSet("imgconv", flag.ContinueOnError)
 
 	flags.StringVar(&directory, "directory", "", "please specify directory")
 	flags.StringVar(&directory, "d", "", "please specify directory")
+
+	flags.StringVar(&from, "from", "jpg", "please specify before conversion format")
+	flags.StringVar(&from, "f", "jpg", "please specify before conversion format")
+
+	flags.StringVar(&to, "to", "png", "please specify after conversion format")
+	flags.StringVar(&to, "t", "png", "please specify after conversion format")
 
 	if err := flags.Parse(os.Args[1:]); err != nil {
 		log.Fatal(err)
