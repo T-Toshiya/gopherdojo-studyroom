@@ -34,6 +34,10 @@ func main() {
 		log.Fatal("You need to specify directory")
 	}
 
+	if from == to {
+		log.Fatal("You cannot specify same format")
+	}
+
 	if f, err := os.Stat(directory); os.IsNotExist(err) || !f.IsDir() {
 		log.Fatal(err)
 	}
