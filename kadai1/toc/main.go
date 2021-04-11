@@ -15,11 +15,15 @@ func main() {
 
 	flags := flag.NewFlagSet("imgconv", flag.ContinueOnError)
 
-	flags.StringVar(&directory, "directory", "", "")
-	flags.StringVar(&directory, "d", "", "")
+	flags.StringVar(&directory, "directory", "", "please specify directory")
+	flags.StringVar(&directory, "d", "", "please specify directory")
 
 	if err := flags.Parse(os.Args[1:]); err != nil {
 		log.Fatal(err)
+	}
+
+	if directory == "" {
+		log.Fatal("You need to specify directory")
 	}
 
 	if f, err := os.Stat(directory); os.IsNotExist(err) || !f.IsDir() {
