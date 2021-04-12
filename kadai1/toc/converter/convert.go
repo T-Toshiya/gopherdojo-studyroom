@@ -23,10 +23,10 @@ func (c ConvertOpt) Convert(directory, filepath string) error {
 	defer file.Close()
 
 	switch c.BeforeFmt {
-	case "jpg":
+	case "jpg", "jpeg":
 		img, err = jpeg.Decode(file)
 	case "png":
-		img, err = png.Decode(file)
+		img, _, err = image.Decode(file)
 	}
 
 	if err != nil {
@@ -34,15 +34,15 @@ func (c ConvertOpt) Convert(directory, filepath string) error {
 	}
 
 	paths := strings.Split(filepath, ".")
-	out, err := os.Create(directory + "/" + paths[0] + ".png")
+	out, err := os.Create(directory + "/" + paths[0] + "." + c.AfterFmt)
 	if err != nil {
 		return err
 	}
 	defer out.Close()
 
 	switch c.AfterFmt {
-	case "jpg":
-		if err := jpeg.Encode(out, img, &jpeg.Options{}); err != nil {
+	case "jpg", "jpeg":
+		if err := jpeg.Encode(out, img, nil); err != nil {
 			return err
 		}
 	case "png":

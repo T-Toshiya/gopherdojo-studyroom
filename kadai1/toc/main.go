@@ -49,7 +49,7 @@ func main() {
 
 	var paths []string
 	for _, file := range files {
-		if !file.IsDir() && path.Ext(file.Name()) == ".jpg" {
+		if !file.IsDir() && path.Ext(file.Name()) == "."+from {
 			paths = append(paths, file.Name())
 		}
 	}
