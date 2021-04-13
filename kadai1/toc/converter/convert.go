@@ -8,6 +8,7 @@ import (
 	"strings"
 )
 
+// Converter is a struct that has formats, directory, filepath
 type Converter struct {
 	BeforeFmt string
 	AfterFmt  string
@@ -15,6 +16,7 @@ type Converter struct {
 	FilePath  string
 }
 
+// Convert convert image
 func (c Converter) Convert() error {
 	var img image.Image
 
