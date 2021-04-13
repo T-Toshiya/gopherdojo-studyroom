@@ -54,13 +54,15 @@ func main() {
 		}
 	}
 
-	c := &converter.ConvertOpt{
+	c := &converter.Converter{
 		BeforeFmt: from,
 		AfterFmt:  to,
+		Directory: directory,
 	}
 
 	for _, filepath := range paths {
-		err := c.Convert(directory, filepath)
+		c.FilePath = filepath
+		err := c.Convert()
 		if err != nil {
 			log.Fatal(err)
 		}

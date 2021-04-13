@@ -8,15 +8,17 @@ import (
 	"strings"
 )
 
-type ConvertOpt struct {
+type Converter struct {
 	BeforeFmt string
 	AfterFmt  string
+	Directory string
+	FilePath  string
 }
 
-func (c ConvertOpt) Convert(directory, filepath string) error {
+func (c Converter) Convert() error {
 	var img image.Image
 
-	file, err := os.Open(directory + "/" + filepath)
+	file, err := os.Open(c.Directory + "/" + c.FilePath)
 	if err != nil {
 		return err
 	}
@@ -33,8 +35,8 @@ func (c ConvertOpt) Convert(directory, filepath string) error {
 		return err
 	}
 
-	paths := strings.Split(filepath, ".")
-	out, err := os.Create(directory + "/" + paths[0] + "." + c.AfterFmt)
+	paths := strings.Split(c.FilePath, ".")
+	out, err := os.Create(c.Directory + "/" + paths[0] + "." + c.AfterFmt)
 	if err != nil {
 		return err
 	}
