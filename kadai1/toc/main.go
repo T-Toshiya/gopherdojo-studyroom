@@ -10,6 +10,13 @@ import (
 	"path"
 )
 
+const Usage string = `Usage:
+  imgconv [-d | --directory <DIRECTORY>] [-f | --from <FORMAT>] [-t | --to <FORMAT>]
+Flags:
+  -d, --directory  target directory containing the images you want to convert
+  -f, --from       source format
+  -t, --to         target format`
+
 func main() {
 	var directory string
 	var from string
@@ -31,7 +38,8 @@ func main() {
 	}
 
 	if directory == "" {
-		log.Fatal("You need to specify directory")
+		fmt.Print(Usage)
+		os.Exit(0)
 	}
 
 	if from == to {
